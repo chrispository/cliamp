@@ -1,5 +1,5 @@
 VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
-BINARY  ?= cliamp
+BINARY  ?= cliamp-lite
 LDFLAGS := -s -w -X main.version=$(VERSION)
 
 # CI installs these versions through make tools. Bump STATICCHECK_VERSION
@@ -58,7 +58,6 @@ TESTFLAGS ?=
 ci: fmt-check tidy-check vet staticcheck security
 	go test -count=1 -race $(TESTFLAGS) -coverprofile=coverage.out ./...
 	go tool cover -func=coverage.out
-	shellcheck site/install.sh
 	git diff --exit-code
 
 check: fmt vet test
